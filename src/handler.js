@@ -76,6 +76,13 @@ exports.Server.ResponseHandler = {
 		.word16be(outputValue?0xFF00:0x0000).buffer();
 
         return res;
+  },
+  6: function (outputAddress, outputValue) {
+  
+      var res = Put().word8(5).word16be(outputAddress).word16be(outputValue).buffer();
+
+      return res;
+  
   }
 
 };
@@ -89,36 +96,45 @@ exports.Server.ResponseHandler = {
  */
 exports.Server.RequestHandler = {
 
-  // ReadCoils
-  1:  function (pdu) {
+    // ReadCoils
+    1:  function (pdu) {
 
-	var fc = pdu.readUInt8(0), // never used, should just be an example
-	    startAddress = pdu.readUInt16BE(1),
-	    quantity = pdu.readUInt16BE(3),
+        var fc = pdu.readUInt8(0), // never used, should just be an example
+            startAddress = pdu.readUInt16BE(1),
+            quantity = pdu.readUInt16BE(3),
             param = [ startAddress, quantity ];
 
-	return param;	
-      },
+        return param;	
+    },
 
-  // ReadInputRegister
-  4:  function (pdu) {
+    // ReadInputRegister
+    4: function (pdu) {
 
         var startAddress = pdu.readUInt16BE(1),
-	    quantity = pdu.readUInt16BE(3),
-	    param = [ startAddress, quantity ];
+            quantity = pdu.readUInt16BE(3),
+            param = [ startAddress, quantity ];
 
         return param;
-      },
-  5: function (pdu) {
+    },
+    5: function (pdu) {
       
-       var outputAddress = pdu.readUInt16BE(1),
-	   outputValue = pdu.readUInt16BE(3),
-           boolValue = outputValue===0xFF00?true:outputValue===0x0000?false:undefined,
-   	   param = [ outputAddress, boolValue ];
+        var outputAddress = pdu.readUInt16BE(1),
+            outputValue = pdu.readUInt16BE(3),
+            boolValue = outputValue===0xFF00?true:outputValue===0x0000?false:undefined,
+        param = [ outputAddress, boolValue ];
 
-       return param;
+        return param;
+    },
+    6: function (pdu) {
+     
+        var outputAddress   = pdu.readUInt16BE(1),
+            outputValue     = pdu.readUInt16BE(3),
+            param = [ outputAddress, outputValue ];
+
+        return param; 
+     
      }
-  }
+  };
 
 
 exports.Client = { };

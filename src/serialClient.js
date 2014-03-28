@@ -231,25 +231,30 @@ proto.handleErrorPDU = function (pdu, cb) {
  *  this an extra function.
  */
 proto.pduWithTwoParameter = function (fc, start, quantity) {
-  return Put()
-	.word8(fc)
-	.word16be(start)
-	.word16be(quantity)
-	.buffer();
-}
+    
+    return Put()
+        .word8(fc)
+        .word16be(start)
+        .word16be(quantity)
+        .buffer();
+
+};
 
 proto.handleClose = function (that) {
 
-  return function () {
-    that.isConnected = false;
-  }
+    return function () {
+
+        that.isConnected = false;
+
+    };
+
 };
 
 proto.handleEnd = function (that) {
 
-  return function () {
-    that.isConnected = false;
-  }
+    return function () {
+        that.isConnected = false;
+    };
 
 };
 
