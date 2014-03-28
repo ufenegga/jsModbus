@@ -86,6 +86,8 @@ proto._handleData = function (that) {
    
     log('received data');
 
+    // TODO: remove
+    console.log(data);
     var cnt = 0;
 
     while (cnt < data.length) {
