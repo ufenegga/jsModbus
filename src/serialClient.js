@@ -116,7 +116,11 @@ proto.makeRequest = function (fc, pdu, cb) {
   var req = { fc: fc, cb: cb, pdu: pdu };
 
   this.pipe.push(req);
-
+  if (this.pipe.length > 3) {
+  	console.log('PIPE TOO FULL, REMOVE OLD REQUEST');
+  	this.pipe.shift();
+  }
+  
   if (this.state === 'ready') {
     this.flush();
   }
